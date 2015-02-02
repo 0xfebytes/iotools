@@ -30,12 +30,12 @@ void disc_init ( IO *io, IO_DIR dir )
 {
 		if ( dir ) {
 				_set_bit(*io->_ddr, io->_channel);
+				// *io->_ddr |= ( 1<<io->_channel ); // _set_bit(*io->_ddr, io->_channel);
 		}
 		else {
 				_clear_bit(*io->_ddr, io->_channel);
+				// *io->_ddr &= ~( 1<<io->_channel ); // _clear_bit(*io->_ddr, io->_channel);
 		}
-
-		return NULL
 }		/* -----  end of function disc_init  ----- */
 
 /* 
@@ -47,8 +47,7 @@ void disc_init ( IO *io, IO_DIR dir )
 void disc_on ( IO *io )
 {
 		_set_bit(*io->_port, io->_channel);
-
-		return NULL;
+		// *io->_port |= ( 1<<io->_channel ); // _set_bit(*io->_port, io->_channel);
 }		/* -----  end of function disc_on  ----- */
 
 /* 
@@ -60,8 +59,7 @@ void disc_on ( IO *io )
 void disc_off ( IO *io )
 {
 		_clear_bit(*io->_port, io->_channel);
-
-		return NULL;
+		// *io->_port &= ~( 1<<io->_channel ); // _clear_bit(*io->_port, io->_channel);
 }		/* -----  end of function disc_off  ----- */
 
 /* 
@@ -92,8 +90,6 @@ void disc_toggle ( IO *io, uint16_t time, TIME_UNIT unit )
 		_delay_ms(time);
 		disc_off(io);
 		_delay_ms(time);
-
-		return NULL;
 }		/* -----  end of function disc_toggle  ----- */
 
 /* 
@@ -102,13 +98,15 @@ void disc_toggle ( IO *io, uint16_t time, TIME_UNIT unit )
  *  Description:  create new io object
  * =====================================================================================
  */
-void io_new ( volatile uint8_t *port, volatile uint8_t *pin,
+IO *io_new ( volatile uint8_t *port, volatile uint8_t *pin,
 				volatile uint8_t *ddr, uint8_t channel )
 {
+		IO *io = malloc(sizeof(IO));
+
 		io->_port = port;
 		io->_pin = pin;
 		io->_ddr = ddr;
 		io->_channel = channel;
 
-		return NULL;
+		return io;
 }		/* -----  end of function io_new  ----- */

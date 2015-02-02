@@ -37,7 +37,7 @@ struct IO {
 		uint8_t *_port; // PORT
 		uint8_t *_pin; // PIN
 		uint8_t *_ddr; // DDR
-		uint8_t *_channel;
+		uint8_t _channel;
 };				/* ----------  end of struct IO  ---------- */
 typedef struct IO IO;
 
@@ -47,9 +47,9 @@ typedef struct IO IO;
 void disc_init ( IO *io, IO_DIR dir );
 void disc_on ( IO *io );
 void disc_off ( IO *io );
-void disc_read ( IO *io );
+uint8_t disc_read ( IO *io );
 void disc_toggle ( IO *io, uint16_t time, TIME_UNIT unit );
-void io_new ( volatile uint8_t *port, volatile uint8_t *pin,
+IO *io_new ( volatile uint8_t *port, volatile uint8_t *pin,
 				volatile uint8_t *ddr, uint8_t channel );
 
 #endif
