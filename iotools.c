@@ -20,6 +20,10 @@
 #include <util/delay.h>
 #include "iotools.h"
 
+/*-----------------------------------------------------------------------------
+ *  _set_bit and _clear_bit are macros defined in header file
+ *-----------------------------------------------------------------------------*/
+
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  disc_init
@@ -30,11 +34,9 @@ void disc_init ( IO *io, IO_DIR dir )
 {
 		if ( dir ) {
 				_set_bit(*io->_ddr, io->_channel);
-				// *io->_ddr |= ( 1<<io->_channel ); // _set_bit(*io->_ddr, io->_channel);
 		}
 		else {
 				_clear_bit(*io->_ddr, io->_channel);
-				// *io->_ddr &= ~( 1<<io->_channel ); // _clear_bit(*io->_ddr, io->_channel);
 		}
 }		/* -----  end of function disc_init  ----- */
 
@@ -47,7 +49,6 @@ void disc_init ( IO *io, IO_DIR dir )
 void disc_on ( IO *io )
 {
 		_set_bit(*io->_port, io->_channel);
-		// *io->_port |= ( 1<<io->_channel ); // _set_bit(*io->_port, io->_channel);
 }		/* -----  end of function disc_on  ----- */
 
 /* 
@@ -59,7 +60,6 @@ void disc_on ( IO *io )
 void disc_off ( IO *io )
 {
 		_clear_bit(*io->_port, io->_channel);
-		// *io->_port &= ~( 1<<io->_channel ); // _clear_bit(*io->_port, io->_channel);
 }		/* -----  end of function disc_off  ----- */
 
 /* 
