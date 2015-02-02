@@ -29,10 +29,10 @@
 void disc_init ( IO *io, IO_DIR dir )
 {
 		if ( dir ) {
-				*io->_ddr |= ( 1<<io->_channel );
+				_set_bit(*io->_ddr, io->_channel);
 		}
 		else {
-				*in->_ddr &= ~( 1<<io->_channel );
+				_clear_bit(*io->_ddr, io->_channel);
 		}
 
 		return NULL
@@ -46,7 +46,7 @@ void disc_init ( IO *io, IO_DIR dir )
  */
 void disc_on ( IO *io )
 {
-		*io->_port |= ( 1<<io->_channel );
+		_set_bit(*io->_port, io->_channel);
 
 		return NULL;
 }		/* -----  end of function disc_on  ----- */
@@ -59,7 +59,7 @@ void disc_on ( IO *io )
  */
 void disc_off ( IO *io )
 {
-		*io->_port &= ~( 1<<io->_channel );
+		_clear_bit(*io->_port, io->_channel);
 
 		return NULL;
 }		/* -----  end of function disc_off  ----- */
@@ -70,10 +70,31 @@ void disc_off ( IO *io )
  *  Description:  reads the state of io
  * =====================================================================================
  */
-void disc_read ( IO *io )
+uint8_t disc_read ( IO *io )
 {
 		return *io->_pin & ( 1<<io->_channel );
 }		/* -----  end of function disc_read  ----- */
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  disc_toggle
+ *  Description:  
+ * =====================================================================================
+ */
+void disc_toggle ( IO *io, uint16_t time, TIME_UNIT unit )
+{
+		// TIME_UNIT ms=0, sec=1; convert sec to ms
+		if( unit ) {
+				time *= 1000;
+		}
+
+		disc_on(io);
+		_delay_ms(time);
+		disc_off(io);
+		_delay_ms(time);
+
+		return NULL;
+}		/* -----  end of function disc_toggle  ----- */
 
 /* 
  * ===  FUNCTION  ======================================================================
